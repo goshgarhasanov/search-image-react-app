@@ -1,4 +1,4 @@
-EXAMPLE https://goshgarhasanov.github.io/search-image-react-app/
+# EXAMPLE https://goshgarhasanov.github.io/search-image-react-app/
 
 # Getting Started with Create React App
 
