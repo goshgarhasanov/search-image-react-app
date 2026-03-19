@@ -109,7 +109,7 @@ const AppContent = () => {
 
   const handleDownload = async (image, customFilename) => {
     const url = image.srcOriginal || image.srcLarge || image.src;
-    const filename = customFilename || `${image.source.toLowerCase()}-${image.id.split('-')[1]}.jpg`;
+    const filename = customFilename || `imagefinder-${image.id.split('-')[1]}.jpg`;
     const success = await downloadImage(url, filename);
     if (success) {
       showToast(t.downloadSuccess);
@@ -191,7 +191,7 @@ const AppContent = () => {
         </>
       )}
 
-      <Footer availableSources={availableSources} />
+      <Footer />
 
       {selectedImage && (
         <ImageModal

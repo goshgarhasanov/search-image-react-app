@@ -18,7 +18,7 @@ const normalizePixabay = (hit) => ({
   likes: hit.likes,
   downloads: hit.downloads,
   views: hit.views,
-  source: 'Pixabay',
+  source: 'Free',
   sourceUrl: hit.pageURL,
   color: '#2ecc71',
   tags: hit.tags ? hit.tags.split(', ') : [],
@@ -135,7 +135,7 @@ const searchPexels = async (query, page = 1, perPage = 30) => {
 // Main search function - queries all enabled APIs in parallel
 export const searchImages = async (query, page = 1, perPage = 12, sources = null) => {
   const apiMap = {
-    Pixabay: searchPixabay,
+    Free: searchPixabay,
     Unsplash: searchUnsplash,
     Pexels: searchPexels,
   };
@@ -165,7 +165,7 @@ export const searchImages = async (query, page = 1, perPage = 12, sources = null
 // Get available API sources (ones with keys configured)
 export const getAvailableSources = () => {
   const sources = [];
-  if (PIXABAY_KEY) sources.push('Pixabay');
+  if (PIXABAY_KEY) sources.push('Free');
   if (UNSPLASH_KEY) sources.push('Unsplash');
   if (PEXELS_KEY) sources.push('Pexels');
   return sources;

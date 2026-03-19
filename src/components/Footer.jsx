@@ -1,8 +1,8 @@
 import React from 'react';
-import { FiHeart, FiGithub } from 'react-icons/fi';
+import { FiGithub } from 'react-icons/fi';
 import { useLang } from '../i18n/LanguageContext';
 
-const Footer = ({ availableSources }) => {
+const Footer = () => {
   const { t } = useLang();
 
   return (
@@ -18,9 +18,6 @@ const Footer = ({ availableSources }) => {
           >
             <FiGithub /> Goshgar Hasanzadeh
           </a>
-        </p>
-        <p className="footer-sources">
-          {t.poweredBy(availableSources.join(' + '))}
         </p>
         <p className="footer-disclaimer">{t.disclaimer}</p>
       </div>

@@ -3,7 +3,7 @@ import { FiCheck } from 'react-icons/fi';
 import { useLang } from '../i18n/LanguageContext';
 
 const sourceColors = {
-  Pixabay: '#2ecc71',
+  Free: '#2ecc71',
   Unsplash: '#e74c3c',
   Pexels: '#3498db',
 };

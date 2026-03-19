@@ -31,11 +31,7 @@ const ImageCard = ({ image, onOpenModal, onDownload }) => {
         />
 
         <div className={`card-overlay ${isHovered ? 'visible' : ''}`}>
-          <div className="overlay-top">
-            <span className="source-badge" style={{ backgroundColor: image.color }}>
-              {image.source}
-            </span>
-          </div>
+          <div className="overlay-top" />
 
           <div className="overlay-actions">
             <button

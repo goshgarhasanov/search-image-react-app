@@ -42,7 +42,7 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
 
   const handleDownload = async (url, quality) => {
     setDownloading(true);
-    const filename = `${image.source.toLowerCase()}-${image.id.split('-')[1]}-${quality}.jpg`;
+    const filename = `imagefinder-${image.id.split('-')[1]}-${quality}.jpg`;
     await onDownload({ ...image, srcOriginal: url }, filename);
     setDownloading(false);
   };
@@ -80,9 +80,6 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
 
           <div className="modal-info">
             <div className="modal-header">
-              <span className="source-badge large" style={{ backgroundColor: image.color }}>
-                {image.source}
-              </span>
               <div className="modal-counter">{currentIndex + 1} / {images.length}</div>
             </div>
 
@@ -92,7 +89,6 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
                 <a href={image.photographerUrl} target="_blank" rel="noopener noreferrer" className="photographer-name">
                   {image.photographer}
                 </a>
-                <span className="photographer-source">on {image.source}</span>
               </div>
             </div>
 
@@ -170,7 +166,7 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
 
             <a href={image.sourceUrl} target="_blank" rel="noopener noreferrer" className="view-source-link">
               <FiExternalLink />
-              {t.viewOn(image.source)}
+              {t.viewOnSource}
             </a>
           </div>
         </div>
