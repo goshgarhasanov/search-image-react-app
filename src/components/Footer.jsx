@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-inner">
         <p className="footer-text">
-          Developed by{' '}
+          FotoRoom.Az — Developed by{' '}
           <a
             href="https://github.com/goshgarhasanov"
             target="_blank"

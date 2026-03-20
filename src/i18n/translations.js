@@ -1,8 +1,8 @@
 const translations = {
   en: {
     // Header
-    logoText: 'ImageFinder',
-    logoBadge: 'Pro',
+    logoText: 'FotoRoom',
+    logoBadge: '.Az',
     favorites: 'Favorites',
     favoritesCount: (n) => `${n}`,
 
@@ -96,7 +96,7 @@ const translations = {
 
     // Footer
     madeWith: 'Made with',
-    by: 'by ImageFinder Pro',
+    by: 'by FotoRoom.Az',
     poweredBy: (sources) => `Powered by ${sources}`,
     disclaimer: 'All images are provided by their respective sources and are subject to their licenses.',
 
@@ -123,8 +123,8 @@ const translations = {
 
   az: {
     // Header
-    logoText: 'ImageFinder',
-    logoBadge: 'Pro',
+    logoText: 'FotoRoom',
+    logoBadge: '.Az',
     favorites: 'Sevimlilər',
     favoritesCount: (n) => `${n}`,
 
