@@ -1,20 +1,25 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {
   FiX, FiDownload, FiExternalLink, FiUser, FiHeart,
-  FiEye, FiMaximize, FiChevronLeft, FiChevronRight
+  FiEye, FiMaximize, FiChevronLeft, FiChevronRight,
+  FiCopy, FiShare2
 } from 'react-icons/fi';
 import { useLang } from '../i18n/LanguageContext';
+import { isFavorite } from '../services/api';
 
-const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
+const ImageModal = ({ image, images, onClose, onDownload, onNavigate, onToggleFavorite, onCopyLink }) => {
   const { t } = useLang();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
+  const favorited = isFavorite(image.id);
 
   const currentIndex = images.findIndex(img => img.id === image.id);
 
   const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
       setIsImageLoaded(false);
+      setZoomed(false);
       onNavigate(images[currentIndex - 1]);
     }
   }, [currentIndex, images, onNavigate]);
@@ -22,6 +27,7 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
   const handleNext = useCallback(() => {
     if (currentIndex < images.length - 1) {
       setIsImageLoaded(false);
+      setZoomed(false);
       onNavigate(images[currentIndex + 1]);
     }
   }, [currentIndex, images, onNavigate]);
@@ -31,6 +37,7 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowLeft') handlePrev();
       if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'f' || e.key === 'F') onToggleFavorite(image);
     };
     window.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
@@ -38,7 +45,7 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [onClose, handlePrev, handleNext]);
+  }, [onClose, handlePrev, handleNext, onToggleFavorite, image]);
 
   const handleDownload = async (url, quality) => {
     setDownloading(true);
@@ -49,6 +56,17 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
+  };
+
+  const handleShare = async () => {
+    const shareUrl = image.sourceUrl;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: image.alt, url: shareUrl });
+      } catch { /* user cancelled */ }
+    } else {
+      onCopyLink(image);
+    }
   };
 
   if (!image) return null;
@@ -66,21 +84,46 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
         )}
 
         <div className="modal-content">
-          <div className="modal-image-section">
+          <div className={`modal-image-section ${zoomed ? 'zoomed' : ''}`}>
             {!isImageLoaded && (
               <div className="modal-image-loader"><div className="spinner-large" /></div>
             )}
             <img
               src={image.srcLarge}
               alt={image.alt}
-              className={`modal-image ${isImageLoaded ? 'loaded' : ''}`}
+              className={`modal-image ${isImageLoaded ? 'loaded' : ''} ${zoomed ? 'zoomed' : ''}`}
               onLoad={() => setIsImageLoaded(true)}
+              onClick={() => setZoomed(!zoomed)}
+              style={{ cursor: zoomed ? 'zoom-out' : 'zoom-in' }}
             />
           </div>
 
           <div className="modal-info">
             <div className="modal-header">
               <div className="modal-counter">{currentIndex + 1} / {images.length}</div>
+              <div className="modal-header-actions">
+                <button
+                  className={`modal-action-btn ${favorited ? 'favorited' : ''}`}
+                  onClick={() => onToggleFavorite(image)}
+                  title={favorited ? t.removeFromFavorites : t.addToFavorites}
+                >
+                  <FiHeart />
+                </button>
+                <button
+                  className="modal-action-btn"
+                  onClick={() => onCopyLink(image)}
+                  title={t.copyLink}
+                >
+                  <FiCopy />
+                </button>
+                <button
+                  className="modal-action-btn"
+                  onClick={handleShare}
+                  title={t.share}
+                >
+                  <FiShare2 />
+                </button>
+              </div>
             </div>
 
             <div className="modal-photographer">
@@ -89,6 +132,7 @@ const ImageModal = ({ image, images, onClose, onDownload, onNavigate }) => {
                 <a href={image.photographerUrl} target="_blank" rel="noopener noreferrer" className="photographer-name">
                   {image.photographer}
                 </a>
+                <span className="photographer-source">{image.source}</span>
               </div>
             </div>
 

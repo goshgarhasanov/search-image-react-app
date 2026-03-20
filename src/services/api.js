@@ -63,19 +63,23 @@ const normalizePexels = (photo) => ({
 });
 
 // API Fetchers
-const searchPixabay = async (query, page = 1, perPage = 30) => {
+const searchPixabay = async (query, page = 1, perPage = 30, filters = {}) => {
   if (!PIXABAY_KEY) return { images: [], total: 0 };
   try {
-    const response = await axios.get('https://pixabay.com/api/', {
-      params: {
-        key: PIXABAY_KEY,
-        q: query,
-        image_type: 'photo',
-        per_page: perPage,
-        page,
-        safesearch: true,
-      },
-    });
+    const params = {
+      key: PIXABAY_KEY,
+      q: query,
+      image_type: 'photo',
+      per_page: perPage,
+      page,
+      safesearch: true,
+    };
+
+    if (filters.color) params.colors = filters.color;
+    if (filters.orientation) params.orientation = filters.orientation;
+    if (filters.order) params.order = filters.order;
+
+    const response = await axios.get('https://pixabay.com/api/', { params });
     return {
       images: response.data.hits.map(normalizePixabay),
       total: response.data.totalHits,
@@ -86,15 +90,21 @@ const searchPixabay = async (query, page = 1, perPage = 30) => {
   }
 };
 
-const searchUnsplash = async (query, page = 1, perPage = 30) => {
+const searchUnsplash = async (query, page = 1, perPage = 30, filters = {}) => {
   if (!UNSPLASH_KEY) return { images: [], total: 0 };
   try {
+    const params = {
+      query,
+      page,
+      per_page: perPage,
+    };
+
+    if (filters.orientation) params.orientation = filters.orientation;
+    if (filters.color) params.color = filters.color;
+    if (filters.order === 'latest') params.order_by = 'latest';
+
     const response = await axios.get('https://api.unsplash.com/search/photos', {
-      params: {
-        query,
-        page,
-        per_page: perPage,
-      },
+      params,
       headers: {
         Authorization: `Client-ID ${UNSPLASH_KEY}`,
       },
@@ -109,15 +119,20 @@ const searchUnsplash = async (query, page = 1, perPage = 30) => {
   }
 };
 
-const searchPexels = async (query, page = 1, perPage = 30) => {
+const searchPexels = async (query, page = 1, perPage = 30, filters = {}) => {
   if (!PEXELS_KEY) return { images: [], total: 0 };
   try {
+    const params = {
+      query,
+      page,
+      per_page: perPage,
+    };
+
+    if (filters.orientation) params.orientation = filters.orientation;
+    if (filters.color) params.color = filters.color;
+
     const response = await axios.get('https://api.pexels.com/v1/search', {
-      params: {
-        query,
-        page,
-        per_page: perPage,
-      },
+      params,
       headers: {
         Authorization: PEXELS_KEY,
       },
@@ -133,7 +148,7 @@ const searchPexels = async (query, page = 1, perPage = 30) => {
 };
 
 // Main search function - queries all enabled APIs in parallel
-export const searchImages = async (query, page = 1, perPage = 12, sources = null) => {
+export const searchImages = async (query, page = 1, perPage = 12, sources = null, filters = {}) => {
   const apiMap = {
     Free: searchPixabay,
     Unsplash: searchUnsplash,
@@ -143,7 +158,7 @@ export const searchImages = async (query, page = 1, perPage = 12, sources = null
   const activeSources = sources || Object.keys(apiMap);
 
   const results = await Promise.allSettled(
-    activeSources.map((source) => apiMap[source]?.(query, page, perPage))
+    activeSources.map((source) => apiMap[source]?.(query, page, perPage, filters))
   );
 
   let allImages = [];
@@ -191,5 +206,73 @@ export const downloadImage = async (url, filename) => {
     // Fallback: open in new tab
     window.open(url, '_blank');
     return false;
+  }
+};
+
+// Favorites management
+const FAVORITES_KEY = 'imagefinder_favorites';
+
+export const getFavorites = () => {
+  try {
+    return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+  } catch {
+    return [];
+  }
+};
+
+export const toggleFavorite = (image) => {
+  const favorites = getFavorites();
+  const index = favorites.findIndex((f) => f.id === image.id);
+  if (index > -1) {
+    favorites.splice(index, 1);
+  } else {
+    favorites.unshift(image);
+  }
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+  return favorites;
+};
+
+export const isFavorite = (imageId) => {
+  return getFavorites().some((f) => f.id === imageId);
+};
+
+// Search history management
+const HISTORY_KEY = 'imagefinder_history';
+const MAX_HISTORY = 10;
+
+export const getSearchHistory = () => {
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+  } catch {
+    return [];
+  }
+};
+
+export const addToHistory = (query) => {
+  const history = getSearchHistory().filter((h) => h !== query);
+  history.unshift(query);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, MAX_HISTORY)));
+};
+
+export const clearHistory = () => {
+  localStorage.removeItem(HISTORY_KEY);
+};
+
+// Copy to clipboard
+export const copyToClipboard = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return true;
   }
 };

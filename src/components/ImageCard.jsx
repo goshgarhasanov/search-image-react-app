@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { FiDownload, FiMaximize2, FiHeart, FiUser, FiExternalLink } from 'react-icons/fi';
+import { FiDownload, FiMaximize2, FiHeart, FiUser, FiExternalLink, FiCopy } from 'react-icons/fi';
 import { useLang } from '../i18n/LanguageContext';
+import { isFavorite } from '../services/api';
 
-const ImageCard = ({ image, onOpenModal, onDownload }) => {
+const ImageCard = ({ image, onOpenModal, onDownload, onToggleFavorite, onCopyLink }) => {
   const { t } = useLang();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const favorited = isFavorite(image.id);
 
   const aspectRatio = image.height / image.width;
 
@@ -16,7 +18,7 @@ const ImageCard = ({ image, onOpenModal, onDownload }) => {
       onMouseLeave={() => setIsHovered(false)}
       style={{ '--aspect-ratio': aspectRatio }}
     >
-      <div className="image-card-inner">
+      <div className="image-card-inner" onClick={() => onOpenModal(image)}>
         {!isLoaded && (
           <div className="image-skeleton">
             <div className="skeleton-shimmer" />
@@ -31,7 +33,15 @@ const ImageCard = ({ image, onOpenModal, onDownload }) => {
         />
 
         <div className={`card-overlay ${isHovered ? 'visible' : ''}`}>
-          <div className="overlay-top" />
+          <div className="overlay-top">
+            <button
+              className={`action-btn favorite-btn ${favorited ? 'favorited' : ''}`}
+              onClick={(e) => { e.stopPropagation(); onToggleFavorite(image); }}
+              title={favorited ? t.removeFromFavorites : t.addToFavorites}
+            >
+              <FiHeart />
+            </button>
+          </div>
 
           <div className="overlay-actions">
             <button
@@ -47,6 +57,13 @@ const ImageCard = ({ image, onOpenModal, onDownload }) => {
               title={t.download}
             >
               <FiDownload />
+            </button>
+            <button
+              className="action-btn"
+              onClick={(e) => { e.stopPropagation(); onCopyLink(image); }}
+              title={t.copyLink}
+            >
+              <FiCopy />
             </button>
             <a
               className="action-btn"
