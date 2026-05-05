@@ -338,7 +338,11 @@ const AppContent = () => {
       <div className={`toast ${toast.visible ? 'visible' : ''}`}>
         {toast.message}
       </div>
-    </div>
+    
+      <footer style={{ textAlign: "center", padding: "20px", fontSize: 13, color: "#888" }}>
+        Developed by <a href="https://github.com/goshgarhasanov" target="_blank" rel="noopener noreferrer" style={{ color: "#D946EF", fontWeight: 600, textDecoration: "none" }}>Goshgar Hasanzadeh</a>
+      </footer>
+</div>
   );
 };
 
