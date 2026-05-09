@@ -17,6 +17,7 @@
 [![React](https://img.shields.io/badge/React-18.2-000000?style=for-the-badge&logo=react&logoColor=61dafb)](https://reactjs.org/)
 [![License](https://img.shields.io/badge/License-MIT-000000?style=for-the-badge)](LICENSE)
 [![PRs](https://img.shields.io/badge/PRs-Welcome-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/goshgarhasanov/search-image-react-app/pulls)
+[![Bir qəhvə al](https://img.shields.io/badge/%E2%98%95-Bir%20q%C9%99hv%C9%99%20al-ff7d5a?style=for-the-badge&labelColor=0d1117)](https://kofe.al/@goshgarhasanov)
 
 <br/>
 

@@ -22,5 +22,19 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+
+  <!-- kofe.al — bir qəhvə al -->
+  <a class="kofe-floating" href="https://kofe.al/@goshgarhasanov" target="_blank" rel="noopener noreferrer" aria-label="Bir qəhvə al — kofe.al">
+    <span class="kofe-floating__emoji" aria-hidden="true">☕</span>
+    <span class="kofe-floating__label">Bir qəhvə al</span>
+  </a>
+  <style>
+    .kofe-floating{position:fixed;right:16px;bottom:16px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:9999px;background:linear-gradient(135deg,#f5a64a 0%,#ff7d5a 100%);color:#1a0e08;text-decoration:none;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-weight:600;font-size:14px;letter-spacing:-0.01em;box-shadow:0 6px 18px rgba(255,125,90,.32),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s ease,filter .15s ease}
+    .kofe-floating:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 12px 28px rgba(255,125,90,.45),inset 0 1px 0 rgba(255,255,255,.22)}
+    .kofe-floating:active{transform:translateY(0)}
+    .kofe-floating__emoji{font-size:18px;line-height:1;animation:kofe-steam 3s ease-in-out infinite}
+    @keyframes kofe-steam{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-1px) rotate(-3deg)}}
+    @media (max-width:480px){.kofe-floating .kofe-floating__label{display:none}.kofe-floating{padding:12px}.kofe-floating__emoji{font-size:22px}}
+  </style>
 </body>
 </html>
