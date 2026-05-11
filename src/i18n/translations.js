@@ -5,6 +5,8 @@ const translations = {
     logoBadge: '.Az',
     favorites: 'Favorites',
     favoritesCount: (n) => `${n}`,
+    supportMe: 'Buy me a coffee',
+    supportShort: 'Coffee',
 
     // Search
     heroTitle: 'Discover Stunning Images',
@@ -127,6 +129,8 @@ const translations = {
     logoBadge: '.Az',
     favorites: 'Sevimlilər',
     favoritesCount: (n) => `${n}`,
+    supportMe: 'Bir qəhvə al',
+    supportShort: 'Qəhvə',
 
     // Search
     heroTitle: 'Möhtəşəm Şəkillər Kəşf Edin',

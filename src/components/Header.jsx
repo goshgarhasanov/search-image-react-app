@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiSun, FiMoon, FiGlobe, FiHeart } from 'react-icons/fi';
+import { FiSun, FiMoon, FiGlobe, FiHeart, FiCoffee } from 'react-icons/fi';
 import { useLang } from '../i18n/LanguageContext';
 
 const LogoIcon = () => (
@@ -37,6 +37,17 @@ const Header = ({ darkMode, onToggleTheme, favoritesCount, onShowFavorites, show
           <span className="logo-badge">{t.logoBadge}</span>
         </div>
         <nav className="header-nav">
+          <a
+            href="https://kofe.al/@goshgarhasanov"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="coffee-toggle"
+            title={t.supportMe}
+            aria-label={t.supportMe}
+          >
+            <FiCoffee />
+            <span>{t.supportShort}</span>
+          </a>
           <button
             className={`favorites-toggle ${showingFavorites ? 'active' : ''}`}
             onClick={onShowFavorites}

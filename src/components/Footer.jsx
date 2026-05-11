@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiGithub } from 'react-icons/fi';
+import { FiGithub, FiCoffee } from 'react-icons/fi';
 import { useLang } from '../i18n/LanguageContext';
 
 const Footer = () => {
@@ -19,6 +19,14 @@ const Footer = () => {
             <FiGithub /> Goshgar Hasanzadeh
           </a>
         </p>
+        <a
+          href="https://kofe.al/@goshgarhasanov"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="footer-coffee"
+        >
+          <FiCoffee /> {t.supportMe}
+        </a>
         <p className="footer-disclaimer">{t.disclaimer}</p>
       </div>
     </footer>

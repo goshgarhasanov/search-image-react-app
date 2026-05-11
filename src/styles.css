@@ -135,6 +135,58 @@ a {
   gap: 8px;
 }
 
+/* Coffee / Support toggle */
+.coffee-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, #ff7d5a, #ffb347);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(255, 125, 90, 0.35);
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+
+.coffee-toggle:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 4px 14px rgba(255, 125, 90, 0.45);
+  text-decoration: none;
+}
+
+.coffee-toggle:active {
+  transform: translateY(0);
+}
+
+.footer-coffee {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px auto 0;
+  padding: 6px 14px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff7d5a, #ffb347);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(255, 125, 90, 0.3);
+  transition: transform var(--transition), filter var(--transition);
+}
+
+.footer-coffee:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  text-decoration: none;
+}
+
 /* Favorites toggle */
 .favorites-toggle {
   display: flex;
@@ -1804,6 +1856,18 @@ a {
 
   .lang-toggle span {
     display: none;
+  }
+
+  .coffee-toggle span {
+    display: none;
+  }
+
+  .coffee-toggle {
+    padding: 8px 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
   }
 
   .lang-toggle {
